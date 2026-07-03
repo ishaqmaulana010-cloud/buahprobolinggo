@@ -106,42 +106,58 @@ function checkoutWhatsApp() {
         alert("Keranjang lu masih kosong, pilih buahnya dulu bre!");
         return;
     }
-    
+
     const nama = document.getElementById('nama-pembeli').value.trim();
     const wa = document.getElementById('wa-pembeli').value.trim();
     const alamat = document.getElementById('alamat-pembeli').value.trim();
-    
+
     if (!nama || !wa || !alamat) {
         alert("⚠️ Waduh bre, isi Data Verifikasi Pembeli dulu dengan lengkap ya biar aman dari penipuan!");
         return;
     }
-    
+
     // GANTI DENGAN NOMOR WA LU (Wajib pakai kode negara 62 di depan)
-    const nomorWAAnda = "6282284382992"; 
-    
-    let pesan = `*🚨 NOTIFIKASI ORDER BARU (VALIDASI SYSTEM)*\n\n`;
-    pesan += `👤 *Data Pembeli:* \n`;
-    pesan += `• Nama: ${nama}\n`;
-    pesan += `• No. WA Input: ${wa}\n`;
-    pesan += `• Alamat Kirim: ${alamat}\n\n`;
-    pesan += `===============================\n`;
-    pesan += `🛒 *Daftar Pesanan Buah:* \n`;
-    
-    let totalAkhir = 0;
-    isiKeranjang.forEach((item) => {
-        const subTotal = item.harga * item.jumlah;
-        totalAkhir += subTotal;
-        pesan += `📦 *${item.nama}* : ${item.jumlah} Kg (Rp ${subTotal.toLocaleString('id-ID')})\n`;
-    });
-    
-    pesan += `===============================\n`;
-    pesan += `💰 *Total Akhir:* Rp ${totalAkhir.toLocaleString('id-ID')}\n\n`;
-    pesan += `*Catatan:* Jika nomor pengirim berbeda dengan No. WA Input di atas, mohon waspada penipuan!`;
-    
-    const urlWA = `https://api.whatsapp.com/send?phone=${nomorWAAnda}&text=${encodeURIComponent(pesan)}`;
-    window.open(urlWA, '_blank');
+    const nomorWAAnda = "6282284382992";
+
+    // --- PROSES AMBIL LOKASI GOOGLE MAPS OTOMATIS ---
+    if (navigator.geolocation) {
+        alert("Klik 'Allow/Izinkan' pada notifikasi setelah ini ya bre, biar lokasi lu akurat di Google Maps!");
+
+        navigator.geolocation.getCurrentPosition(
+            // Jika pembeli mengizinkan GPS
+            function (position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const linkMaps = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                // Kirim ke WA bawa link Maps
+                prosesKirimWA(nomorWAAnda, nama, wa, alamat, linkMaps);
+            },
+            // Jika pembeli menolak GPS / Error
+            function (error) {
+                alert("Gagal mengambil lokasi otomatis. Tapi tenang, pesanan tetap diproses pakai alamat manual lu, bre!");
+                // Kirim ke WA tanpa link Maps
+                prosesKirimWA(nomorWAAnda, nama, wa, alamat, "Pembeli tidak membagikan lokasi GPS");
+            }
+        );
+    } else {
+        // Jika browser tidak mendukung GPS
+        prosesKirimWA(nomorWAAnda, nama, wa, alamat, "Browser tidak mendukung GPS otomatis");
+    }
 }
 
+// Fungsi tambahan untuk merakit teks dan membuka WhatsApp
+function prosesKirimWA(nomorToko, nama, waPembeli, alamatManual, mapsUrl) {
+    let teksPesan = `Halo Bre, Saya mau pesan buah!\n\n`;
+    teksPesan += `*Nama:* ${nama}\n`;
+    teksPesan += `*No. WA Pembeli:* ${waPembeli}\n`;
+    teksPesan += `*Alamat Rumah:* ${alamatManual}\n`;
+    teksPesan += `*Lokasi Google Maps:* ${mapsUrl}\n\n`;
+    teksPesan += `_Silakan cek detail pesanan di keranjang saya_`;
+
+    const urlWhatsApp = `https://api.whatsapp.com/send?phone=${nomorToko}&text=${encodeURIComponent(teksPesan)}`;
+    window.open(urlWhatsApp, '_blank');
+}
 // =========================================================================
 // 3. FUNGSI LOGIKA HALAMAN VARIETAS, OPTIMASI SCROLL, & ANIMASI
 // =========================================================================
