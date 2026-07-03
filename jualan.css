@@ -1,0 +1,431 @@
+/* Tambahkan kode ini di bagian paling atas file jualan.css lu */
+
+/* === STYLING PRELOADER === */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1e3c72; /* Warna senada latar belakang */
+    z-index: 9999; /* Harus paling atas mengalahkan semua elemen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Ketika loading selesai, preloader bakal slorok ke atas */
+#preloader.selesai {
+    opacity: 0;
+    transform: translateY(-100vh);
+    pointer-events: none;
+}
+
+.konten-loader {
+    text-align: center;
+}
+
+.spinner-buah {
+    font-size: 4rem;
+    animation: mutarBuah 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+.teks-loader {
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 15px;
+    animation: teksKedip 1.5s ease-in-out infinite alternate;
+}
+
+/* Animasi Spinner & Teks Loading */
+@keyframes mutarBuah {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes teksKedip {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+
+/* === STYLING ANIMASI SCROLL (MUNCUL PAS DI-SCROLL) === */
+.efek-scroll {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9); /* Posisi awal: agak ke bawah dan mengecil */
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Efek mantul smooth */
+}
+
+/* Class ini bakal ditempel otomatis oleh JS ketika user scroll ke bawah */
+.efek-scroll.muncul {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Kembali ke posisi normal */
+}
+
+
+/* --- SISA KODE CSS LU YANG KEMARIN TETAP DI BAWAH SINI --- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0; padding: 0;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white; overflow-x: hidden;
+}
+.area-3d { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; perspective: 1000px; }
+.buah-melayang { position: absolute; font-size: 3rem; user-select: none; opacity: 0.7; filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.5)); animation: terbangRotasi 15s linear infinite; transform-style: preserve-3d; }
+@keyframes terbangRotasi { 0% { transform: translateY(105vh) translateX(0) rotateX(0deg) rotateY(0deg) translateZ(0px); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(-10vh) translateX(50px) rotateX(360deg) rotateY(360deg) translateZ(200px); opacity: 0; } }
+.sambutan-3d { position: relative; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; z-index: 2; }
+.overlay-latar { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); z-index: -1; }
+.teks-sambutan-judul-animasi { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to right, #fff, #a8ff78); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+.tombol-jelajah { display: inline-block; padding: 15px 30px; background-color: #2ecc71; color: white; text-decoration: none; font-weight: bold; border-radius: 50px; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); transition: 0.2s; }
+.tombol-jelajah:hover { transform: scale(1.05); background-color: #27ae60; }
+section#katalog { position: relative; padding: 80px 20px; background-color: rgba(255, 255, 255, 0.95); color: #333; z-index: 2; }
+h2 { text-align: center; margin-bottom: 40px; color: #2c3e50; }
+.grid-kontainer { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto; }
+.kartu-buah { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: 0.3s; }
+.kartu-buah:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+.foto-buah { height: 120px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 3rem; margin-bottom: 15px; }
+.bg-durian { background-color: #ffeaa7; }
+.bg-manggis { background-color: #fab1a0; }
+.bg-alpukat { background-color: #55efc4; }
+.bg-asem { background-color: #ffeaa7; }
+.nama-buah { font-size: 1.3rem; margin: 10px 0; color: #2c3e50; }
+.harga-buah { color: #27ae60; font-weight: bold; font-size: 1.1rem; margin-bottom: 15px; }
+.tombol-beli { background-color: #2e3d49; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+.tombol-beli:hover { background-color: #2ecc71; }
+/* === STYLING BAGIAN FOOTER KONTAK & SOSMED === */
+.footer-kontak {
+    position: relative;
+    background-color: #1a252f; /* Warna gelap elegan */
+    color: white;
+    padding: 60px 20px 20px 20px;
+    z-index: 2; /* Agar berada di atas background buah terbang */
+    border-top: 5px solid #2ecc71; /* Garis pembatas ijo segar */
+}
+
+.konten-footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-kontak h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #2ecc71;
+}
+
+.deskripsi-footer {
+    color: #bdc3c7;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+/* Container untuk barisan tombol sosmed */
+.kontainer-sosmed {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Desain kartu sosmed umum */
+.kartu-sosmed {
+    display: flex;
+    align-items: center;
+    background-color: #2c3e50;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.kartu-sosmed:hover {
+    transform: translateY(-5px);
+}
+
+.ikon-sosmed {
+    font-size: 2rem;
+    margin-right: 15px;
+}
+
+.info-sosmed {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.label-sosmed {
+    font-size: 0.8rem;
+    color: #b2bec3;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.username-sosmed {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Warna branding khusus masing-masing sosmed pas di-hover */
+.kartu-sosmed.wa:hover { background-color: #25D366; box-shadow: 0 5px 15px rgba(37,211,102,0.4); }
+.kartu-sosmed.ig:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 5px 15px rgba(220,39,67,0.4); }
+.kartu-sosmed.tiktok:hover { background-color: #000000; box-shadow: 0 5px 15px rgba(0,0,0,0.6); border: 1px solid #00f2fe; }
+.kartu-sosmed.fb:hover { background-color: #1877F2; box-shadow: 0 5px 15px rgba(24,119,242,0.4); }
+
+/* Hak Cipta */
+.hak-cipta {
+    border-top: 1px solid #34495e;
+    padding-top: 20px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+.foto-buah {
+    height: 120px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem; /* Mengatur ukuran besar ikon Font Awesome */
+    margin-bottom: 15px;
+}
+
+/* Modifikasi warna ikon biar kontras dengan background kartu */
+.bg-durian { background-color: #ffeaa7; color: #d35400; }
+.bg-manggis { background-color: #fab1a0; color: #b71540; }
+.bg-alpukat { background-color: #55efc4; color: #0e6251; }
+.bg-asem { background-color: #f5cd79; color: #7f8c8d; }
+
+/* Menambahkan jarak tipis antara ikon tombol dan teks beli */
+.tombol-beli i {
+    margin-right: 8px;
+}/* Trik menyembunyikan halaman */
+.tersembunyi {
+    display: none !important;
+}
+
+#halaman-varietas {
+    padding: 60px 20px;
+    background-color: rgba(255, 255, 255, 0.98);
+    color: #333;
+    z-index: 2;
+    position: relative;
+    min-height: 80vh;
+}
+
+.tombol-kembali {
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 30px;
+    transition: 0.2s;
+}
+.tombol-kembali:hover { background-color: #34495e; }
+
+/* Input jumlah kiloan */
+.pengatur-jumlah {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.input-kiloan {
+    width: 60px;
+    text-align: center;
+    padding: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+}
+
+.btn-jumlah {
+    background-color: #bdc3c7;
+    border: none;
+    padding: 5px 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-jumlah:hover { background-color: #95a5a6; }
+/* === STYLING KERANJANG MELAYANG & SIDEBAR === */
+
+/* Ikon Buat Buat Keranjang Melayang */
+#tombol-keranjang-melayang {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    background-color: #2ecc71;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(46, 204, 113, 0.5);
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#tombol-keranjang-melayang:hover { transform: scale(1.1); }
+
+/* Animasi Memantul pas barang ditambah */
+.animasi-notif {
+    animation: pantulNotif 0.4s ease-in-out;
+}
+@keyframes pantulNotif {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+/* Badge Angka Notifikasi */
+#notif-jumlah-keranjang {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Sidebar Keranjang Belanjaan */
+#sidebar-keranjang {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100vh;
+    background-color: white;
+    color: #333;
+    box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+/* Slorok keluar masuk */
+.keranjang-tertutup { transform: translateX(100%); }
+
+.header-keranjang {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a252f;
+    color: white;
+}
+.header-keranjang h3 { margin: 0; font-size: 1.2rem; }
+.tombol-tutup-keranjang { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
+
+/* Wadah List Buah di Keranjang */
+#list-item-keranjang {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+.keranjang-kosong { text-align: center; color: #7f8c8d; margin-top: 50px; font-style: italic; }
+
+/* Desain per Baris Item Buah */
+.item-keranjang {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+.detail-item-keranjang h4 { margin: 0 0 5px 0; font-size: 1rem; color: #2c3e50; }
+.detail-item-keranjang span { font-size: 0.9rem; color: #27ae60; font-weight: bold; }
+.tombol-hapus-item { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1rem; }
+
+/* Bagian Bawah Tirai Keranjang */
+.footer-keranjang {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+.total-pembayaran {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+#total-harga-keranjang { color: #2ecc71; }
+.tombol-checkout {
+    width: 100%;
+    background-color: #25D366;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.tombol-checkout:hover { background-color: #1ebd56; transform: translateY(-2px); }
+
+/* Biar gak ketutupan di layar HP */
+@media (max-width: 400px) {
+    #sidebar-keranjang { width: 100%; }
+}
+/* Styling Form Data Pembeli di Keranjang */
+.form-pembeli {
+    padding: 15px 20px;
+    border-top: 2px dashed #eceff1;
+    background-color: #fdfefe;
+}
+
+.form-pembeli h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.form-pembeli input, .form-pembeli textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.form-pembeli input:focus, .form-pembeli textarea:focus {
+    border-color: #2ecc71;
+    outline: none;
+}
+
+/* Sembunyikan form kalau keranjang masih kosong */
+.form-hidden {
+    display: none !important;
+}
