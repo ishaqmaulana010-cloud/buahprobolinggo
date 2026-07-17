@@ -1,157 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lapak Buah Segar Bre</title>
+    <meta name="description" content="Toko Buah Online Probolinggo — Segar langsung dari petani terbaik di Kota Mangga. Durian, Manggis, Alpukat, Asem, dan lainnya.">
+    <meta name="theme-color" content="#0f172a">
+    <title>Lapak Buah Segar — Toko Buah Online Probolinggo</title>
 
-    <!-- 1. PANGGIL FONTAWESOME ONLINE (Hanya baris ini saja, yang lama hapus) -->
+    <!-- Security: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://images.unsplash.com data:; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- 2. PANGGIL CSS UTAMA LU -->
+    <!-- Main CSS -->
     <link rel="stylesheet" href="jualan.css">
 </head>
 <body>
 
-    <!-- ANIMASI PRELOADER -->
+    <!-- ============ PRELOADER ============ -->
     <div id="preloader">
         <div class="konten-loader">
-            <div class="spinner-buah"><i class="fas fa-spinner fa-spin"></i></div>
+            <div class="spinner-buah">🍊</div>
             <p class="teks-loader">Memetik Buah Segar...</p>
+            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
         </div>
     </div>
 
-    <!-- CONTAINER BACKGROUND 3D -->
+    <!-- ============ FLOATING FRUIT BACKGROUND ============ -->
     <div id="latar-buah-3d" class="area-3d"></div>
 
-    <!-- BAGIAN SAMBUTAN (HERO SECTION) -->
-    <section class="sambutan-3d" id="halaman-utama-hero">
+    <!-- ============ NAVBAR STICKY ============ -->
+    <nav id="navbar" class="navbar">
+        <div class="navbar-inner">
+            <a href="#halaman-utama-hero" class="navbar-brand">
+                <span class="brand-icon">🍉</span>
+                <span class="brand-text">Buah Probolinggo</span>
+            </a>
+            <button class="navbar-toggle" id="btn-toggle-nav" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="navbar-menu" id="menu-nav">
+                <li><a href="#halaman-utama-hero" class="nav-link aktif" data-section="halaman-utama-hero"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#katalog" class="nav-link" data-section="katalog"><i class="fas fa-th-large"></i> Katalog</a></li>
+                <li><a href="#keunggulan" class="nav-link" data-section="keunggulan"><i class="fas fa-star"></i> Keunggulan</a></li>
+                <li><a href="#ulasan" class="nav-link" data-section="ulasan"><i class="fas fa-comments"></i> Ulasan</a></li>
+                <li><a href="#footer-kontak" class="nav-link" data-section="footer-kontak"><i class="fas fa-phone-alt"></i> Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============ HERO SECTION ============ -->
+    <section class="sambutan-hero" id="halaman-utama-hero">
+        <div class="hero-particles"></div>
         <div class="overlay-latar"></div>
         <div class="konten-sambutan">
-            <h1 class="teks-sambutan-pembuka-animasi">SELAMAT DATANG DI</h1>
-            <h1 class="teks-sambutan-judul-animasi">TOKO BUAH ONLINE PROBOLINGGO</h1>
-            <p class="deskripsi-sambutan">Segar Langsung Dari Petani Terbaik di Kota Mangga</p>
-            <a href="#katalog" class="tombol-jelajah">Jelajahi Buah <i class="fas fa-shopping-basket"></i></a>
+            <p class="hero-badge"><i class="fas fa-leaf"></i> Fresh from Probolinggo</p>
+            <h1 class="hero-judul">
+                <span class="hero-line hero-line-1">Buah Segar </span>
+                <span class="hero-line hero-line-2">Langsung dari <em>Petani</em></span>
+            </h1>
+            <p class="deskripsi-sambutan">Nikmati buah-buahan berkualitas premium, dipetik langsung dari kebun terbaik di Kota Mangga — Probolinggo.</p>
+            <div class="hero-buttons">
+                <a href="#katalog" class="tombol-jelajah tombol-primary">
+                    <i class="fas fa-shopping-basket"></i> Jelajahi Buah
+                </a>
+                <a href="#keunggulan" class="tombol-jelajah tombol-secondary">
+                    <i class="fas fa-info-circle"></i> Kenapa Kami?
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="500">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Pembeli Puas</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Varietas Buah</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="4">0</span><span class="stat-suffix">.9 ⭐</span>
+                    <span class="stat-label">Rating Toko</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- BAGIAN KATALOG UTAMA -->
-    <section id="katalog">
-        <h2 class="judul-katalog">Katalog Buah Segar Pilihan Bre</h2>
-        <div class="grid-kontainer">
-            
-            <!-- Buah 1: Durian -->
-            <div class="kartu-buah efek-scroll">
-                <div class="foto-buah bg-durian"><i class="fas fa-crown"></i></div>
-                <h3 class="nama-buah">Aneka Durian</h3>
-                <div class="harga-buah">Mulai Rp 50.000 / kg</div>
-                <button class="tombol-beli" onclick="bukaKategori('Durian')"><i class="fas fa-search"></i> Lihat Macamnya</button>
+    <!-- ============ KEUNGGULAN SECTION ============ -->
+    <section id="keunggulan" class="section-keunggulan">
+        <div class="section-container">
+            <p class="section-subtitle"><i class="fas fa-award"></i> Kenapa Pilih Kami?</p>
+            <h2 class="section-title">Keunggulan Kami, Bre</h2>
+            <div class="grid-keunggulan">
+                <div class="kartu-keunggulan efek-scroll">
+                    <div class="keunggulan-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Gratis Ongkir</h3>
+                    <p>Free delivery se-Probolinggo Kota untuk pembelian minimal 5 kg. Cepat sampai!</p>
+                </div>
+                <div class="kartu-keunggulan efek-scroll">
+                    <div class="keunggulan-icon"><i class="fas fa-seedling"></i></div>
+                    <h3>100% Segar</h3>
+                    <p>Dipetik langsung dari kebun. Dijamin fresh, tanpa pengawet, tanpa bahan kimia.</p>
+                </div>
+                <div class="kartu-keunggulan efek-scroll">
+                    <div class="keunggulan-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Garansi Tukar</h3>
+                    <p>Buah tidak sesuai? Kami ganti baru tanpa ribet. Kepuasan pembeli nomor satu!</p>
+                </div>
+                <div class="kartu-keunggulan efek-scroll">
+                    <div class="keunggulan-icon"><i class="fas fa-tags"></i></div>
+                    <h3>Harga Petani</h3>
+                    <p>Langsung dari sumber, tanpa tengkulak. Harga lebih murah, kualitas tetap juara.</p>
+                </div>
             </div>
-
-            <!-- Buah 2: Manggis -->
-            <div class="kartu-buah efek-scroll">
-                <div class="foto-buah bg-manggis"><i class="fas fa-gem"></i></div>
-                <h3 class="nama-buah">Aneka Manggis</h3>
-                <div class="harga-buah">Mulai Rp 25.000 / kg</div>
-                <button class="tombol-beli" onclick="bukaKategori('Manggis')"><i class="fas fa-search"></i> Lihat Macamnya</button>
-            </div>
-
-            <!-- Buah 3: Alpukat -->
-            <div class="kartu-buah efek-scroll">
-                <div class="foto-buah bg-alpukat"><i class="fas fa-seedling"></i></div>
-                <h3 class="nama-buah">Aneka Alpukat</h3>
-                <div class="harga-buah">Mulai Rp 30.000 / kg</div>
-                <button class="tombol-beli" onclick="bukaKategori('Alpukat')"><i class="fas fa-search"></i> Lihat Macamnya</button>
-            </div>
-
-            <!-- Buah 4: Asem -->
-            <div class="kartu-buah efek-scroll">
-                <div class="foto-buah bg-asem"><i class="fas fa-leaf"></i></div>
-                <h3 class="nama-buah">Aneka Asem</h3>
-                <div class="harga-buah">Mulai Rp 15.000 / kg</div>
-                <button class="tombol-beli" onclick="bukaKategori('Asem')"><i class="fas fa-search"></i> Lihat Macamnya</button>
-            </div>
-
         </div>
     </section>
 
-    <!-- HALAMAN BARU: TEMPAT MACAM-MACAM VARIASI BUAH (Awalnya disembunyikan) -->
-    <section id="halaman-varietas" class="tersembunyi">
-        <!-- Isi halaman ini akan digenerate otomatis oleh JAVASCRIPT -->
+    <!-- ============ KATALOG PRODUK ============ -->
+    <section id="katalog" class="section-katalog">
+        <div class="section-container">
+            <p class="section-subtitle"><i class="fas fa-lemon"></i> Pilihan Terbaik</p>
+            <h2 class="section-title">Katalog Buah Segar</h2>
+            <div class="grid-kontainer">
+                <!-- Buah 1: Durian -->
+                <div class="kartu-buah efek-scroll">
+                    <div class="kartu-buah-inner">
+                        <div class="badge-promo">🔥 Best Seller</div>
+                        <div class="foto-buah bg-durian"><i class="fas fa-crown"></i></div>
+                        <h3 class="nama-buah">Aneka Durian</h3>
+                        <p class="deskripsi-produk">Raja buah khas Probolinggo, daging tebal & manis legit</p>
+                        <div class="harga-buah">Mulai Rp 50.000 <span class="satuan">/ kg</span></div>
+                        <button class="tombol-beli" onclick="bukaKategori('Durian')"><i class="fas fa-search"></i> Lihat Macamnya</button>
+                    </div>
+                </div>
+                <!-- Buah 2: Manggis -->
+                <div class="kartu-buah efek-scroll">
+                    <div class="kartu-buah-inner">
+                        <div class="badge-promo">👑 Premium</div>
+                        <div class="foto-buah bg-manggis"><i class="fas fa-gem"></i></div>
+                        <h3 class="nama-buah">Aneka Manggis</h3>
+                        <p class="deskripsi-produk">Ratu buah yang kaya antioksidan, rasa manis segar</p>
+                        <div class="harga-buah">Mulai Rp 25.000 <span class="satuan">/ kg</span></div>
+                        <button class="tombol-beli" onclick="bukaKategori('Manggis')"><i class="fas fa-search"></i> Lihat Macamnya</button>
+                    </div>
+                </div>
+                <!-- Buah 3: Alpukat -->
+                <div class="kartu-buah efek-scroll">
+                    <div class="kartu-buah-inner">
+                        <div class="badge-promo">🥑 Favorit</div>
+                        <div class="foto-buah bg-alpukat"><i class="fas fa-seedling"></i></div>
+                        <h3 class="nama-buah">Aneka Alpukat</h3>
+                        <p class="deskripsi-produk">Alpukat mentega jumbo, creamy & lembut banget</p>
+                        <div class="harga-buah">Mulai Rp 30.000 <span class="satuan">/ kg</span></div>
+                        <button class="tombol-beli" onclick="bukaKategori('Alpukat')"><i class="fas fa-search"></i> Lihat Macamnya</button>
+                    </div>
+                </div>
+                <!-- Buah 4: Asem -->
+                <div class="kartu-buah efek-scroll">
+                    <div class="kartu-buah-inner">
+                        <div class="badge-promo">🌿 Khas Lokal</div>
+                        <div class="foto-buah bg-asem"><i class="fas fa-leaf"></i></div>
+                        <h3 class="nama-buah">Aneka Asem</h3>
+                        <p class="deskripsi-produk">Asem pilihan, cocok buat bumbu masak & camilan</p>
+                        <div class="harga-buah">Mulai Rp 15.000 <span class="satuan">/ kg</span></div>
+                        <button class="tombol-beli" onclick="bukaKategori('Asem')"><i class="fas fa-search"></i> Lihat Macamnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- BAGIAN FOOTER KONTAK & SOSMED -->
-    <footer class="footer-kontak">
-        <!-- ... Sisi footer lu tetep sama kayak kemaren ... -->
+    <!-- ============ HALAMAN VARIETAS (Hidden, generated by JS) ============ -->
+    <section id="halaman-varietas" class="tersembunyi"></section>
+
+    <!-- ============ ULASAN & RATING SECTION ============ -->
+    <section id="ulasan" class="section-ulasan">
+        <div class="section-container">
+            <p class="section-subtitle"><i class="fas fa-star"></i> Apa Kata Mereka?</p>
+            <h2 class="section-title">Ulasan & Rating Pembeli</h2>
+
+            <!-- Average Rating Display -->
+            <div class="ringkasan-rating efek-scroll">
+                <div class="angka-rating-besar" id="angka-rating">5.0</div>
+                <div class="bintang-rating-besar" id="bintang-rating-besar">⭐⭐⭐⭐⭐</div>
+                <p class="total-ulasan-text" id="total-ulasan">3 ulasan dari pembeli</p>
+            </div>
+
+            <!-- Review Form -->
+            <div class="form-ulasan efek-scroll">
+                <h3><i class="fas fa-edit"></i> Tulis Ulasan Kamu</h3>
+                <div class="form-row">
+                    <input type="text" id="input-nama-ulasan" placeholder="Nama kamu, bre" maxlength="50">
+                    <!-- Honeypot anti-bot trap — hidden from real users -->
+                    <input type="text" id="ulasan-website" class="hp-field" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="star-rating-input">
+                    <label>Rating:</label>
+                    <div class="bintang-klik" id="bintang-input">
+                        <i class="fas fa-star" data-value="1"></i>
+                        <i class="fas fa-star" data-value="2"></i>
+                        <i class="fas fa-star" data-value="3"></i>
+                        <i class="fas fa-star" data-value="4"></i>
+                        <i class="fas fa-star" data-value="5"></i>
+                    </div>
+                </div>
+                <textarea id="input-teks-ulasan" placeholder="Ceritakan pengalaman belanja buah kamu..." rows="3" maxlength="500"></textarea>
+                <button class="tombol-kirim-ulasan" onclick="kirimUlasan()">
+                    <i class="fas fa-paper-plane"></i> Kirim Ulasan
+                </button>
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt"></i> Ulasan dilindungi sistem anti-spam & anti-bot
+                </div>
+            </div>
+
+            <!-- Review List (rendered by JS) -->
+            <div class="list-ulasan" id="daftar-ulasan">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER KONTAK & SOSMED ============ -->
+    <footer class="footer-kontak" id="footer-kontak">
         <div class="konten-footer">
-            <h3>Hubungi Kami Bre <i class="fas fa-phone-alt"></i></h3>
-            <div class="kontainer-sosmed">
-               <!-- Ganti baris 85-100 dengan kode di bawah ini, bre -->
-        <a href="https://wa.me/6282284382992?text=Halo%20Bre%2C%20saya%20mau%20tanya%20tentang%20stok%20buahnya%20dong" target="_blank" class="kartu-sosmed wa">
-            <span class="ikon-sosmed"><i class="fab fa-whatsapp"></i></span>
-            <div class="info-sosmed"><span class="label-sosmed">WhatsApp</span></div>
-        </a>
-        <a href="https://instagram.com/_u/emmisshaq_" target="_blank" class="kartu-sosmed ig">
-            <span class="ikon-sosmed"><i class="fab fa-instagram"></i></span>
-            <div class="info-sosmed"><span class="label-sosmed">Instagram</span></div>
-        </a>
-        <a href="https://www.tiktok.com/@maoul" target="_blank" class="kartu-sosmed tiktok">
-            <span class="ikon-sosmed"><i class="fab fa-tiktok"></i></span>
-            <div class="info-sosmed"><span class="label-sosmed">TikTok</span></div>
-        </a>
-        <a href="https://www.facebook.com/MwlnIshq" target="_blank" class="kartu-sosmed fb">
-            <span class="ikon-sosmed"><i class="fab fa-facebook-f"></i></span>
-            <div class="info-sosmed"><span class="label-sosmed">Facebook</span></div>
-        </a>
+            <div class="footer-brand">
+                <span class="brand-icon-footer">🍉</span>
+                <h3>LapakBuah Probolinggo</h3>
+                <p class="deskripsi-footer">Menyediakan buah-buahan segar berkualitas langsung dari petani terbaik di Kota Mangga — Probolinggo, Jawa Timur.</p>
             </div>
-            <div class="hak-cipta"><p>&copy; 2026 Toko Buah Online Probolinggo. All Rights Reserved, Bre!</p></div>
+            <div class="footer-section">
+                <h4><i class="fas fa-phone-alt"></i> Hubungi Kami</h4>
+                <div class="kontainer-sosmed">
+                    <a href="https://wa.me/6282284382992?text=Halo%20Bre%2C%20saya%20mau%20tanya%20tentang%20stok%20buahnya%20dong" target="_blank" class="kartu-sosmed wa">
+                        <span class="ikon-sosmed"><i class="fab fa-whatsapp"></i></span>
+                        <div class="info-sosmed"><span class="label-sosmed">WhatsApp</span><span class="username-sosmed">0822-8438-2992</span></div>
+                    </a>
+                    <a href="https://instagram.com/_u/emmisshaq_" target="_blank" class="kartu-sosmed ig">
+                        <span class="ikon-sosmed"><i class="fab fa-instagram"></i></span>
+                        <div class="info-sosmed"><span class="label-sosmed">Instagram</span><span class="username-sosmed">@emmisshaq_</span></div>
+                    </a>
+                    <a href="https://www.tiktok.com/@maoul" target="_blank" class="kartu-sosmed tiktok">
+                        <span class="ikon-sosmed"><i class="fab fa-tiktok"></i></span>
+                        <div class="info-sosmed"><span class="label-sosmed">TikTok</span><span class="username-sosmed">@maoul</span></div>
+                    </a>
+                    <a href="https://www.facebook.com/MwlnIshq" target="_blank" class="kartu-sosmed fb">
+                        <span class="ikon-sosmed"><i class="fab fa-facebook-f"></i></span>
+                        <div class="info-sosmed"><span class="label-sosmed">Facebook</span><span class="username-sosmed">MwlnIshq</span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="hak-cipta">
+                <p>&copy; 2026 Toko Buah Online Probolinggo. All Rights Reserved, Bre! 🍊</p>
+            </div>
         </div>
     </footer>
-    <!-- ... batas akhir section halaman-varietas dan footer lu ... -->
 
-    <!-- === IKON KERANJANG BELANJA MELAYANG === -->
+    <!-- ============ FLOATING CART BUTTON ============ -->
     <div id="tombol-keranjang-melayang" onclick="bukaTutupKeranjang()">
         <i class="fas fa-shopping-cart"></i>
         <span id="notif-jumlah-keranjang">0</span>
     </div>
 
-    <!-- === SIDEBAR KERANJANG BELANJA (TIRAI SLIDE-OUT) === -->
-   <!-- ... Ganti bagian dalam #sidebar-keranjang lu dengan kode di bawah ini ... -->
+    <!-- ============ OVERLAY BACKDROP ============ -->
+    <div id="overlay-keranjang" class="overlay-backdrop" onclick="bukaTutupKeranjang()"></div>
+
+    <!-- ============ SIDEBAR KERANJANG ============ -->
     <div id="sidebar-keranjang" class="keranjang-tertutup">
         <div class="header-keranjang">
-            <h3><i class="fas fa-shopping-basket"></i> Keranjang Lu, Bre</h3>
+            <h3><i class="fas fa-shopping-basket"></i> Keranjang Belanja</h3>
             <button class="tombol-tutup-keranjang" onclick="bukaTutupKeranjang()"><i class="fas fa-times"></i></button>
         </div>
-        
-        <!-- Tempat daftar buah yang dibeli -->
         <div id="list-item-keranjang">
-            <p class="keranjang-kosong">Keranjang masih kosong nih, bre...</p>
-        </div>
-
-        <!-- FORM DATA IDENTITAS PEMBELI (UNTUK ANTISIPASI PENIPUAN) -->
-        <div class="form-pembeli" id="area-form-pembeli">
-            <h4><i class="fas fa-user-shield"></i> Data Verifikasi Pembeli</h4>
-            <input type="text" id="nama-pembeli" placeholder="Nama Lengkap Lu, Bre" required>
-            <input type="number" id="wa-pembeli" placeholder="Nomor WA Aktif (Contoh: 08123...)" required>
-            <textarea id="alamat-pembeli" placeholder="Alamat Pengiriman di Probolinggo" rows="2" required></textarea>
-        </div>
-
-        <div class="footer-keranjang">
-            <div class="total-pembayaran">
-                <span>Total:</span>
-                <span id="total-harga-keranjang">Rp 0</span>
+            <div class="keranjang-kosong-wrapper">
+                <i class="fas fa-shopping-basket keranjang-kosong-icon"></i>
+                <p class="keranjang-kosong">Keranjang masih kosong nih, bre...</p>
+                <span class="keranjang-kosong-sub">Yuk pilih buah segar dulu!</span>
             </div>
-            <button class="tombol-checkout" onclick="checkoutWhatsApp()">
-                <i class="fab fa-whatsapp"></i> Amankan & Pesan Sekarang
-            </button>
         </div>
-    </div>
-        <!-- Tempat daftar buah yang dibeli (diisi oleh JS) -->
-        <div id="list-item-keranjang">
-            <p class="keranjang-kosong">Keranjang masih kosong nih, bre...</p>
+        <div class="form-pembeli form-hidden" id="area-form-pembeli">
+            <h4><i class="fas fa-user-shield"></i> Data Verifikasi Pembeli</h4>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="nama-pembeli" placeholder="Nama Lengkap" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="wa-pembeli" placeholder="Nomor WA Aktif (08xxx)" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <textarea id="alamat-pembeli" placeholder="Alamat Pengiriman di Probolinggo" rows="2" required></textarea>
+            </div>
         </div>
-
         <div class="footer-keranjang">
             <div class="total-pembayaran">
-                <span>Total:</span>
+                <span>Total Bayar:</span>
                 <span id="total-harga-keranjang">Rp 0</span>
             </div>
             <button class="tombol-checkout" onclick="checkoutWhatsApp()">
@@ -160,7 +312,15 @@
         </div>
     </div>
 
+    <!-- ============ TOAST NOTIFICATION ============ -->
+    <div id="toast-container"></div>
 
-<script src="jualan.js"></script>
+    <!-- ============ BACK TO TOP ============ -->
+    <button id="btn-back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Main JS -->
+    <script src="jualan.js"></script>
 </body>
 </html>
