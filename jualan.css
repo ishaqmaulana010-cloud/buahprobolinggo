@@ -1534,27 +1534,33 @@ img {
     box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
 }
 
-.tombol-login {
+.tombol-login-google {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, var(--color-accent-gold), #d97706);
-    color: white;
-    border: none;
+    background: #ffffff;
+    color: #333333;
+    border: 1px solid #d1d5db;
     border-radius: var(--radius-sm);
     font-family: var(--font-main);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     transition: var(--transition-fast);
 }
 
-.tombol-login:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+.tombol-login-google:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tombol-login-google i {
+    color: #db4437; /* Google Red */
+    font-size: 1.1rem;
 }
 
 .logged-in-bar {

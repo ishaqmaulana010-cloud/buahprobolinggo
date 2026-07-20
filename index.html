@@ -17,6 +17,11 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="jualan.css">
+
+    <!-- Firebase SDKs (Compat version for simplicity) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -152,14 +157,10 @@
                 <div class="login-box">
                     <i class="fas fa-user-lock login-icon"></i>
                     <h3>Login untuk Menulis Ulasan</h3>
-                    <p>Masukkan email kamu agar ulasan terverifikasi dan permanen</p>
+                    <p>Login dengan Google agar ulasan terverifikasi dan permanen</p>
                     <div class="login-form">
-                        <div class="input-group-login">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="input-email-login" placeholder="Masukkan email kamu...">
-                        </div>
-                        <button class="tombol-login" onclick="loginEmail()">
-                            <i class="fas fa-sign-in-alt"></i> Masuk / Daftar
+                        <button class="tombol-login-google" onclick="loginGoogle()">
+                            <i class="fab fa-google"></i> Login dengan Google
                         </button>
                     </div>
                 </div>

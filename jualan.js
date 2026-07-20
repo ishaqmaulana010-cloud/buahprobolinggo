@@ -210,7 +210,7 @@ window.addEventListener('load', function () {
         initScrollAnimations();
         animasiAngkaStats();
         cekLoginStatus();
-        renderUlasan();
+        initFirestoreUlasan();
         initStarRating();
     }, 1200);
 });
@@ -317,49 +317,78 @@ function animasiAngkaStats() {
 }
 
 // =========================================================================
-// 10. LOGIN SYSTEM FOR REVIEWS
+// 10. FIREBASE CONFIGURATION (Placeholder)
 // =========================================================================
-var LOGIN_KEY = 'lapakbuah_user_email';
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  PANDUAN SETUP FIREBASE (Ganti ini setelah bikin project!)     ║
+// ║  1. Buka console.firebase.google.com, bikin project baru       ║
+// ║  2. Tambahkan Web App, copy config-nya ke bawah ini            ║
+// ║  3. Aktifkan Authentication (Sign-in method: Google)           ║
+// ║  4. Aktifkan Firestore Database (Start in test mode)           ║
+// ╚══════════════════════════════════════════════════════════════════╝
+var firebaseConfig = {
+    apiKey: "AIzaSyBws4xNmfrPSyVYvgbKNVMxHoyWE0-LctI",
+    authDomain: "toko-buah-online-probolinggo.firebaseapp.com",
+    projectId: "toko-buah-online-probolinggo",
+    storageBucket: "toko-buah-online-probolinggo.firebasestorage.app",
+    messagingSenderId: "301787176721",
+    appId: "1:301787176721:web:163475aa4b25affa88f6b0"
+};
+
+// Initialize Firebase
+if (firebaseConfig.apiKey !== "GANTI_DENGAN_API_KEY_KAMU") {
+    firebase.initializeApp(firebaseConfig);
+}
+var auth = typeof firebase !== 'undefined' && firebase.apps.length ? firebase.auth() : null;
+var db = typeof firebase !== 'undefined' && firebase.apps.length ? firebase.firestore() : null;
+
+// =========================================================================
+// 11. LOGIN SYSTEM FOR REVIEWS (Firebase Auth)
+// =========================================================================
 var emailTerlogin = null;
+var namaTerlogin = null;
+var fotoTerlogin = null;
 
 function cekLoginStatus() {
-    var saved = localStorage.getItem(LOGIN_KEY);
-    if (saved) {
-        emailTerlogin = saved;
-        tampilkanFormUlasan();
-    } else {
+    if (!auth) {
+        // Fallback kalau Firebase belum disetup
         tampilkanLoginNotice();
+        return;
     }
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            emailTerlogin = user.email;
+            namaTerlogin = user.displayName;
+            fotoTerlogin = user.photoURL;
+            tampilkanFormUlasan();
+            // Panggil render lagi buat update badge
+            renderUlasanLokal(); 
+        } else {
+            emailTerlogin = null;
+            tampilkanLoginNotice();
+        }
+    });
 }
 
-function loginEmail() {
-    var input = document.getElementById('input-email-login');
-    var email = input.value.trim();
-
-    if (!email) {
-        tampilkanToast('Masukkan email kamu dulu, bre! 📧', 'fa-exclamation-circle');
+function loginGoogle() {
+    if (!auth) {
+        tampilkanToast('Firebase belum disetup! Cek file jualan.js bre', 'fa-exclamation-triangle');
         return;
     }
-    if (!validasiEmail(email)) {
-        tampilkanToast('Format email tidak valid! Contoh: nama@gmail.com', 'fa-exclamation-circle');
-        return;
-    }
-    if (cekSpam(email)) {
-        tampilkanToast('Email mencurigakan, gunakan email asli bre!', 'fa-ban');
-        return;
-    }
-
-    emailTerlogin = email;
-    localStorage.setItem(LOGIN_KEY, email);
-    tampilkanFormUlasan();
-    tampilkanToast('Login berhasil! Sekarang kamu bisa tulis ulasan ✅', 'fa-check-circle');
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(function(result) {
+        tampilkanToast('Login berhasil! ✅', 'fa-check-circle');
+    }).catch(function(error) {
+        tampilkanToast('Login gagal: ' + error.message, 'fa-times-circle');
+    });
 }
 
 function logoutReview() {
-    emailTerlogin = null;
-    localStorage.removeItem(LOGIN_KEY);
-    tampilkanLoginNotice();
-    tampilkanToast('Berhasil logout', 'fa-sign-out-alt');
+    if (auth) {
+        auth.signOut().then(function() {
+            tampilkanToast('Berhasil logout', 'fa-sign-out-alt');
+        });
+    }
 }
 
 function tampilkanFormUlasan() {
@@ -381,39 +410,47 @@ function tampilkanLoginNotice() {
 }
 
 // =========================================================================
-// 11. REVIEW & RATING SYSTEM (localStorage)
+// 12. REVIEW & RATING SYSTEM (Firebase Firestore)
 // =========================================================================
-var reviewBawaan = [
-    { nama: 'Andi Pratama', email: 'andi***@gmail.com', rating: 5, teks: 'Duriannya gila sih, mantap banget bre! Daging tebal, manis, dan wanginya semerbak. Pasti repeat order lagi!', tanggal: '2026-07-01', verified: true },
-    { nama: 'Siti Rahayu', email: 'siti***@gmail.com', rating: 5, teks: 'Manggisnya superr segar, kulitnya masih mulus. Pengiriman cepat, sampe rumah masih dingin. Recommended!', tanggal: '2026-07-10', verified: true },
-    { nama: 'Rizky Maulana', email: 'rizky***@gmail.com', rating: 5, teks: 'Alpukat menteganya juara! Creamy banget, cocok buat jus. Harganya juga ramah kantong mahasiswa 😂', tanggal: '2026-07-14', verified: true }
-];
-
-var STORAGE_KEY_REVIEWS = 'lapakbuah_reviews';
+var reviewLokal = [];
 var STORAGE_KEY_COOLDOWN = 'lapakbuah_review_cooldown';
 
-function ambilSemuaUlasan() {
-    var stored = localStorage.getItem(STORAGE_KEY_REVIEWS);
-    if (stored) {
-        try { return JSON.parse(stored); }
-        catch (e) { return reviewBawaan.slice(); }
+function initFirestoreUlasan() {
+    if (!db) {
+        renderUlasanLokal();
+        return;
     }
-    localStorage.setItem(STORAGE_KEY_REVIEWS, JSON.stringify(reviewBawaan));
-    return reviewBawaan.slice();
+    // Dengerin perubahan data secara realtime (langsung update tanpa refresh)
+    db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot(function(snapshot) {
+        reviewLokal = [];
+        snapshot.forEach(function(doc) {
+            reviewLokal.push(doc.data());
+        });
+        renderUlasanLokal();
+    }, function(error) {
+        console.error("Error ambil ulasan:", error);
+    });
 }
 
-function simpanUlasan(ulasanBaru) {
-    var semua = ambilSemuaUlasan();
-    semua.unshift(ulasanBaru);
-    localStorage.setItem(STORAGE_KEY_REVIEWS, JSON.stringify(semua));
+function simpanUlasanKeFirestore(ulasanBaru) {
+    if (!db) {
+        tampilkanToast('Firebase belum disetup! Review tidak tersimpan.', 'fa-exclamation-triangle');
+        return;
+    }
+    db.collection('reviews').add(ulasanBaru)
+        .then(function() {
+            tampilkanToast('Terima kasih atas ulasannya, bre! 🙏', 'fa-check-circle');
+        })
+        .catch(function(error) {
+            tampilkanToast('Gagal mengirim ulasan: ' + error.message, 'fa-times-circle');
+        });
 }
 
 function hitungRataRating() {
-    var semua = ambilSemuaUlasan();
-    if (semua.length === 0) return { rata: '0', total: 0 };
+    if (reviewLokal.length === 0) return { rata: '0', total: 0 };
     var total = 0;
-    semua.forEach(function (r) { total += r.rating; });
-    return { rata: (total / semua.length).toFixed(1), total: semua.length };
+    reviewLokal.forEach(function (r) { total += r.rating; });
+    return { rata: (total / reviewLokal.length).toFixed(1), total: reviewLokal.length };
 }
 
 function formatTanggalReview(dateStr) {
@@ -435,6 +472,7 @@ function buatBintangHTML(rating) {
 }
 
 function getAvatarGradient(nama) {
+    if (!nama) nama = 'A';
     var gradients = [
         'linear-gradient(135deg, #667eea, #764ba2)',
         'linear-gradient(135deg, #f093fb, #f5576c)',
@@ -451,6 +489,7 @@ function getAvatarGradient(nama) {
 }
 
 function maskEmail(email) {
+    if (!email) return '';
     var parts = email.split('@');
     if (parts.length !== 2) return email;
     var name = parts[0];
@@ -458,9 +497,8 @@ function maskEmail(email) {
     return masked + '@' + parts[1];
 }
 
-function renderUlasan() {
+function renderUlasanLokal() {
     var container = document.getElementById('daftar-ulasan');
-    var semua = ambilSemuaUlasan();
     var info = hitungRataRating();
 
     var elAngka = document.getElementById('angka-rating');
@@ -472,22 +510,22 @@ function renderUlasan() {
 
     if (!container) return;
 
-    if (semua.length === 0) {
-        container.innerHTML = '<div class="ulasan-empty"><i class="fas fa-comment-slash"></i><p>Belum ada ulasan. Jadi yang pertama, bre!</p></div>';
+    if (reviewLokal.length === 0) {
+        container.innerHTML = '<div class="ulasan-empty"><i class="fas fa-comment-slash"></i><p>Belum ada ulasan atau Firebase belum connect. Jadilah yang pertama, bre!</p></div>';
         return;
     }
 
     var html = '';
-    semua.forEach(function (r) {
-        var inisial = r.nama.charAt(0).toUpperCase();
+    reviewLokal.forEach(function (r) {
+        var inisial = (r.nama || 'A').charAt(0).toUpperCase();
+        var avatarContent = r.foto ? '<img src="'+sanitizeHTML(r.foto)+'" alt="avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">' : inisial;
         var gradient = getAvatarGradient(r.nama);
-        var verifiedBadge = r.verified
-            ? '<span class="ulasan-badge-verified"><i class="fas fa-check-circle"></i> Pembeli Terverifikasi</span>'
-            : '<span class="ulasan-badge-verified"><i class="fas fa-envelope"></i> ' + sanitizeHTML(r.email || '') + '</span>';
+        var verifiedBadge = '<span class="ulasan-badge-verified"><i class="fas fa-check-circle"></i> Terverifikasi oleh Google</span>';
+        
         html += '<div class="kartu-ulasan">' +
             '<div class="ulasan-header">' +
                 '<div class="ulasan-info">' +
-                    '<div class="ulasan-avatar" style="background: ' + gradient + ';">' + inisial + '</div>' +
+                    '<div class="ulasan-avatar" style="background: ' + gradient + ';">' + avatarContent + '</div>' +
                     '<div>' +
                         '<div class="ulasan-nama">' + sanitizeHTML(r.nama) + '</div>' +
                         '<div class="ulasan-bintang">' + buatBintangHTML(r.rating) + '</div>' +
@@ -529,9 +567,9 @@ function initStarRating() {
 }
 
 function kirimUlasan() {
-    // Must be logged in
+    // Must be logged in via Google
     if (!emailTerlogin) {
-        tampilkanToast('Login dulu sebelum kirim ulasan, bre! 🔐', 'fa-lock');
+        tampilkanToast('Login pakai Google dulu sebelum kirim ulasan, bre! 🔐', 'fa-lock');
         return;
     }
 
@@ -571,30 +609,23 @@ function kirimUlasan() {
         return;
     }
 
-    // Extract name from email
-    var namaFromEmail = emailTerlogin.split('@')[0];
-    namaFromEmail = namaFromEmail.charAt(0).toUpperCase() + namaFromEmail.slice(1);
-
     var ulasanBaru = {
-        nama: namaFromEmail,
+        nama: namaTerlogin || emailTerlogin.split('@')[0],
         email: maskEmail(emailTerlogin),
+        foto: fotoTerlogin,
         rating: ratingDipilih,
         teks: teks,
-        tanggal: new Date().toISOString().split('T')[0],
-        verified: false
+        tanggal: new Date().toISOString(),
+        timestamp: typeof firebase !== 'undefined' && firebase.firestore ? firebase.firestore.FieldValue.serverTimestamp() : Date.now()
     };
 
-    simpanUlasan(ulasanBaru);
+    simpanUlasanKeFirestore(ulasanBaru);
     localStorage.setItem(STORAGE_KEY_COOLDOWN, Date.now().toString());
 
     // Reset form
     document.getElementById('input-teks-ulasan').value = '';
     ratingDipilih = 0;
     document.querySelectorAll('.bintang-klik i').forEach(function (s) { s.classList.remove('aktif'); });
-
-    renderUlasan();
-    initScrollAnimations();
-    tampilkanToast('Terima kasih atas ulasannya, bre! 🙏', 'fa-check-circle');
 }
 
 // =========================================================================
